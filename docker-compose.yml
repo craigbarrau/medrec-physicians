@@ -1,0 +1,13 @@
+---
+version: '2'
+services:
+  db:
+    image: mongo
+    expose:
+     - 27017
+  web:
+    image: craigbarrau/medrec-physicians
+    ports:
+      - 8080:10010
+    links:
+      - db
