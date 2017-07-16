@@ -11,14 +11,17 @@ build:
   # The steps that will be executed on build
   steps:
     - script:
-        code: export NODE_ENV='testing'
+       code: export DOCKER_TAG=`echo $WERCKER_GIT_COMMIT | cut -c1-8`
     - npm-install
     - npm-test
     - script:
-        name: echo nodejs information
-        code: |
-          echo "node version $(node -v) running"
-          echo "npm version $(npm -v) running"
+       code: echo "Pushing Docker with tag $DOCKER_TAG"
+    - internal/docker-push:
+        username: $DOCKERHUB_USERNAME
+        password: $DOCKERHUB_PASSWORD
+        repository: craigbarrau/medrec-physicians:$DOCKER_TAG
+        working-dir: "/pipeline/source"
+        cmd: node app.js
     - script:
         name: deploy to oracle container cloud
         code: |
@@ -48,9 +51,17 @@ build:
           env
           curl -k -X POST -H "Authorization: Bearer ${API_TOKEN}" -d "${POSTDATA}" ${SERVICE_MANAGER}/api/v2/deployments/
 
-push:
+integration_test:
   steps:
-    - internal/docker-push:
-        username: $DOCKERHUB_USERNAME
-        password: $DOCKERHUB_PASSWORD
-        repository: craigbarrau/medrec-physicians:wercker-$WERCKER_GIT_COMMIT
+    - script:
+        code: echo "Placeholder: Run Integration Tests"
+
+acceptance_test:
+  steps:
+    - script:
+        code: echo "Placeholder: Run Acceptance Tests"
+
+production:
+  steps:
+    - script:
+        code: echo "Placeholder: Deploy to Production"
