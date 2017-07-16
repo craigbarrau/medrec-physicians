@@ -54,14 +54,14 @@ build:
 integration_test:
   steps:
     - script:
-        code: echo "Placeholder: Run Integration Tests"
+       code: echo "Placeholder: Run Integration Tests"
 
 acceptance_test:
   steps:
     - script:
-        code: echo "Placeholder: Run Acceptance Tests"
+       code: echo "Placeholder: Run Acceptance Tests"
 
 production:
   steps:
     - script:
-        code: echo "Placeholder: Deploy to Production"
+       code: echo "Placeholder: Deploy to Production"
