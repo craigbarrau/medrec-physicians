@@ -52,19 +52,16 @@ build:
           curl -k -X POST -H "Authorization: Bearer ${API_TOKEN}" -d "${POSTDATA}" ${SERVICE_MANAGER}/api/v2/deployments/
 
 integration_test:
-  # The steps that will be executed on build
   steps:
     - script:
        code: echo "PLACEHOLDER"   
 
 acceptance_test:
-  # The steps that will be executed on build
   steps:
     - script:
        code: echo "PLACEHOLDER"   
 
 production:
-  # The steps that will be executed on build
   steps:
     - script:
        code: echo "PLACEHOLDER"          
