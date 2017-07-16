@@ -5,9 +5,11 @@ services:
     image: mongo
     expose:
      - 27017
+    ports:
+     - 27017:27107
   web:
     image: craigbarrau/medrec-physicians
     ports:
-      - 8080:10010
-    links:
+      - 10010:10010
+    depends_on:
       - db

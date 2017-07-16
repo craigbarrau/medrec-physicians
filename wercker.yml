@@ -12,27 +12,22 @@ build:
   steps:
     - script:
         code: export NODE_ENV='testing'
-    # A step that executes `npm install` command
     - npm-install
-    # A step that executes `npm test` command
-    #- npm-test
-
-    # A custom script step, name value is used in the UI
-    # and the code value contains the command that get executed
+    - npm-test
     - script:
         name: echo nodejs information
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
     - script:
-        name: deploy to occs
+        name: deploy to oracle container cloud
         code: |
-          APP_FRIENDLY_NAME=MedRec
+          APP_FRIENDLY_NAME=MedRec-Physicians
           TIMESTAMP=$(date +%Y%m%d-%H%M%S)
           POSTDATA=$(cat <<ENDOFTEMPLATE
           {
             "deployment_id": "medrec-physicians-${TIMESTAMP}",
-            "deployment_name": "${APP_FRIENDLY_NAME} latest",
+            "deployment_name": "${APP_FRIENDLY_NAME}",
             "desired_state": 1,
             "placement": {
               "pool_id": "default"
@@ -41,9 +36,9 @@ build:
               "app": ${SCALE_AMOUNT}
             },
             "stack": {
-              "content": "version: 2\nservices:\n  app:\n    image: craigbarrau/medrec-physicians\n    ports:\n      - '8080:10010/tcp'\n    working_dir: /pipeline/source\n    command: node app.js\n    environment:\n      - 'occs:availability=per-pool'\n      - 'occs:scheduler=random'",
+              "content": "version: 2\nservices:\n  app:\n    image: craigbarrau/medrec-physicians\n    ports:\n      - '8080:10010/tcp'\n    environment:\n      - 'occs:availability=per-pool'\n      - 'occs:scheduler=random'",
               "service_id": "app",
-              "service_name": "${APP_FRIENDLY_NAME} latest",
+              "service_name": "${APP_FRIENDLY_NAME}",
               "subtype": "service"
             }
           }
@@ -58,4 +53,4 @@ push:
     - internal/docker-push:
         username: $DOCKERHUB_USERNAME
         password: $DOCKERHUB_PASSWORD
-        repository: craigbarrau/medrec-physicians
+        repository: craigbarrau/medrec-physicians:wercker
