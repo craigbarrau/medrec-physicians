@@ -53,4 +53,4 @@ push:
     - internal/docker-push:
         username: $DOCKERHUB_USERNAME
         password: $DOCKERHUB_PASSWORD
-        repository: craigbarrau/medrec-physicians:wercker
+        repository: craigbarrau/medrec-physicians:wercker-$WERCKER_GIT_COMMIT
