@@ -28,9 +28,10 @@ build:
         name: deploy to occs
         code: |
           APP_FRIENDLY_NAME=MedRec
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
           POSTDATA=$(cat <<ENDOFTEMPLATE
           {
-            "deployment_id": "MedRec-Physicians-${TIMESTAMP}",
+            "deployment_id": "medrec-physicians-${TIMESTAMP}",
             "deployment_name": "${APP_FRIENDLY_NAME} latest",
             "desired_state": 1,
             "placement": {
